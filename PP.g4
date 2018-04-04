@@ -6,43 +6,31 @@ type returns [Type value]:
 	| 'array' 'of' t = type {$value = new ArrayOf($t.value);} 
 ;
 
-k returns [K value]: 
-	n = number {$value = new ConstInt(Integer.parseInt($n.text));} 
+exp returns [E value]: 
+	number {$value = new ConstInt(Integer.parseInt($c.text));} 
 	| 'true' {$value = new ConstBool(true);} 
 	| 'false' {$value = new ConstBool(false);} 
-;
 
-uop returns [Uop value]: 
-	'-' 
-	| 'not' 
-;
+	| '-' a = exp {$value = new Inv($a.value);} 
+	| 'not' b = exp {$value = new Not($b.value);} 
 
-bop returns [Bop value]: 
-	'+' 
-	| '-' 
-	| '*' 
-	| '/' 
-	| 'and' 
-	| 'or' 
-	| '<' 
-	| '<=' 
-	| '=' 
-	| '!=' 
-	| '>=' 
-	| '>' 
-;
-
-phi returns [Phi value]: 
-	'read' 
+	| c = exp '+' d = exp {$value = new Plus($c.value, $d.value);}
+	| e = exp '-' f = exp {$value = new Minus($e.value, $f.value);}
+	| g = exp '*' h = exp {$value = new Multiply($g.value, $h.value);}
+	| i = exp '/' j = exp {$value = new Divide($i.value, $j.value);}
+	| k = exp 'and' l = exp {$value = new And($k.value, $l.value);}
+	| m = exp 'or' n = exp {$value = new Or($m.value, $n.value);}
+	| o = exp '<' p = exp {$value = new StrictlySmaller($o.value, $p.value);}
+	| q = exp '<=' r = exp {$value = new SmallerOrEqual($q.value, $r.value);}
+	| s = exp '=' t = exp {$value = new Equal($s.value, $t.value);}
+	| u = exp '!=' v = exp {$value = new Different($u.value, $v.value);}
+	| w = exp '>=' x = exp {$value = new GreaterOrEqual($w.value, $x.value);}
+	| y = exp '>' z = exp {$value = new StrictlyGreater($y.value, $z.value);}
+ 
+	| 'read' 
 	| 'write' 
 	| var
-;
 
-e returns [E value]: 
-	k 
-	| var
-	| uop e 
-	| e bop e 
 	| phi '(' e* ')' 
 	| e '[' e ']' 
 	| 'new' 'array' 'of' type '[' e ']' 
@@ -59,14 +47,14 @@ i returns [I value]:
 	| i ';' i
 ;
 
-d returns [Procedures value]: 
+d returns [D value]: 
 	var '(' arg* ')' [ ':' type ]
 	[ 'var' '(' var ':' type ')'+ ]
 	i
 ;
 arg : '(' var ':' type ')'
 
-p returns [Programs value]: 
+p returns [P value]: 
 	[ 'var' '(' var ':' type ')'+ ]
 	d*
 	i
