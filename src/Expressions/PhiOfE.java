@@ -1,4 +1,4 @@
-package Exponential;
+package Expressions;
 
 import Phi.Phi;
 

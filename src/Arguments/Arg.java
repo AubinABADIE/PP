@@ -4,16 +4,16 @@ import Types.Type;
 
 public class Arg {
 
-	String Id;
+	String var;
 	Type type;
 	
-	public Arg(String Id, Type type){
-		this.Id = Id;
+	public Arg(String var, Type type){
+		this.var = var;
 		this.type = type;
 	}
 	
 	public String toString(){
-		return "("+Id+":"+type+")";
+		return "("+var+":"+type+")";
 	}
 	
 }

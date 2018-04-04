@@ -1,4 +1,4 @@
-package Exponential;
+package Expressions;
 
 
 public class EOfE extends E{
