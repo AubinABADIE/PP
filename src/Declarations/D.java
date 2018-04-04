@@ -1,4 +1,4 @@
-package Procedures;
+package Declarations;
 
 import Arguments.Arg;
 import Instructions.I;
@@ -23,6 +23,6 @@ public class D {
 	}
 
 	public String toString(){
-		return var1+"("+arg+")["
+		return var1+"("+arg; // TO do
 	}
 }
