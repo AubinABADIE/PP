@@ -2,12 +2,12 @@ package Expressions;
 
 //import Type.type;
 
-public class NewArrayOfTypeE extends E{
+public class NewArrayOf extends E{
 	
 	E e;
 //	Type type;
 
-	public NewArrayOfTypeE(E e){
+	public NewArrayOf(E e){
 		this.e = e;
 //		this.type = type;
 	}
