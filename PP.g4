@@ -1,23 +1,23 @@
 grammar PP;
 
-type : 
-	'integer' 
-	| 'boolean' 
-	| 'array' 'of' type 
+type returns [Type value]: 
+	'integer' {$value = new Integer();} 
+	| 'boolean' {$value = new Boolean();} 
+	| 'array' 'of' t = type {$value = new ArrayOf($t.value);} 
 ;
 
-k : 
-	'n' 
-	| 'true' 
-	|'false' 
+k returns [K value]: 
+	n = number {$value = new ConstInt(Integer.parseInt($n.text));} 
+	| 'true' {$value = new ConstBool(true);} 
+	| 'false' {$value = new ConstBool(false);} 
 ;
 
-uop : 
+uop returns [Uop value]: 
 	'-' 
 	| 'not' 
 ;
 
-bop : 
+bop returns [Bop value]: 
 	'+' 
 	| '-' 
 	| '*' 
@@ -32,25 +32,25 @@ bop :
 	| '>' 
 ;
 
-phi : 
+phi returns [Phi value]: 
 	'read' 
 	| 'write' 
-	| ID
+	| var
 ;
 
-e : 
+e returns [E value]: 
 	k 
-	| ID
+	| var
 	| uop e 
 	| e bop e 
 	| phi '(' e* ')' 
 	| e '[' e ']' 
-	| 'new' 'array' 'of' 'type' '[' e ']' 
+	| 'new' 'array' 'of' type '[' e ']' 
 ;
 
 
-i : 
-	ID ':=' e 
+i returns [I value]: 
+	var ':=' e 
 	| e '[' e ']' ':=' e 
 	| 'if' e 'then' e 'else' e 
 	| 'while' e 'do' i 
@@ -59,18 +59,19 @@ i :
 	| i ';' i
 ;
 
-d : 
-	ID '(' arg* ')' [ ':' type ]
-	[ 'var' '(' ID ':' type ')'+ ]
+d returns [Procedures value]: 
+	var '(' arg* ')' [ ':' type ]
+	[ 'var' '(' var ':' type ')'+ ]
 	i
 ;
-arg : '(' ID ':' type ')'
+arg : '(' var ':' type ')'
 
-p : 
-	[ 'var' '(' ID ':' type ')'+ ]
+p returns [Programs value]: 
+	[ 'var' '(' var ':' type ')'+ ]
 	d*
 	i
 ;
 
-ID : [a-z]+ ;
+var : [a-z]+ ;
+number : [0-9]+ ;
 WS : [ \t\r\n]+ -> skip ;
