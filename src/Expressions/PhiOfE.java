@@ -1,7 +1,5 @@
 package Expressions;
 
-import Phi.Phi;
-
 public class PhiOfE extends E{
 	
 	E e;

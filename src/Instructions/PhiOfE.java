@@ -1,7 +1,7 @@
 package Instructions;
 
 import Expressions.E;
-import Phi.Phi;
+import Expressions.Phi;
 
 public class PhiOfE {
 	

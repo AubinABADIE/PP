@@ -1,13 +1,12 @@
 package Expressions;
 
-import UOP.Uop;
 
 public class UopE extends E{
 	
 	E e;
-	Uop uop;
+	UOP uop;
 
-	public UopE(E e, Uop uop){
+	public UopE(E e, UOP uop){
 		this.e = e;
 		this.uop = uop;
 	}

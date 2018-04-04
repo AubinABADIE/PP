@@ -1,6 +1,7 @@
-package Phi;
+package Expressions;
 
-public class Var extends Phi{
+
+public class Var extends UOP{
 
 	String var;
 	

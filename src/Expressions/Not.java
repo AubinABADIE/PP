@@ -1,17 +1,17 @@
 package Expressions;
 
 
-public class Inv extends UOP{
+public class Not extends UOP{
 
 	Integer number;
 	
-	public Inv(Integer number){
+	public Not(Integer number){
 		this.number = number;
 	}
 	
 	@Override
 	public String toString() {
-		return "-"+number;
+		return "not "+number;
 	}
 
 }

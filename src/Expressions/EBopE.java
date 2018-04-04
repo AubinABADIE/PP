@@ -1,7 +1,5 @@
 package Expressions;
 
-import BOP.Bop;
-
 public class EBopE extends E{
 	
 	E e1;
