@@ -27,24 +27,23 @@ exp returns [E value]:
 	| w = exp '>=' x = exp {$value = new GreaterOrEqual($w.value, $x.value);}
 	| y = exp '>' z = exp {$value = new StrictlyGreater($y.value, $z.value);}
  
-	| 'read' 
-	| 'write' 
-	| var
+	| 'read' {$value = new Read();}
+	| 'write' {$value = new Write();}
+	| var {$value = new Var();}
 
-	| phi '(' e* ')' 
-	| e '[' e ']' 
-	| 'new' 'array' 'of' type '[' e ']' 
+	| aa = exp '[' bb = exp ']' {$value = new EofE($aa.value, $bb.value);}
+	| 'new' 'array' 'of' cc = type '[' dd = exp ']' {$value = new NewArrayOf($cc.value, $dd.value);}
 ;
 
 
 i returns [I value]: 
-	var ':=' e 
-	| e '[' e ']' ':=' e 
-	| 'if' e 'then' e 'else' e 
-	| 'while' e 'do' i 
-	| phi '(' e* ')' 
-	| 'skip'
-	| i ';' i
+	a = var ':=' b = exp {$value = new ($a.text, $b.value);}
+	| c = exp '[' d = exp ']' ':=' e = exp {$value = new EofEEqualsE($c.value, $d.value, $e.value);}
+	| 'if' f = exp 'then' g = exp 'else' h = exp {$value = new If($f.value, $g.value, $h.value);}
+	| 'while' i = exp 'do' j = exp {$value = new While($i.value, $j.value);}
+	| phi '(' exp* ')' 
+	| 'skip' {$value = new Skip();}
+	| k = i ';' l = i {$value = new IPointVirguleI($k.value, $l.value);}
 ;
 
 d returns [D value]: 

@@ -19,6 +19,6 @@ public class P {
 	}
 	
 	public String toString(){
-		return "[var("+var+":"+type+")]"+"\n"+d+"\n"+i;
+		return "[var(" + var + ":" + type + ")]" + "\n" + d + "\n" + i;
 	}
 }
